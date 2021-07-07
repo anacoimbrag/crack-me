@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.anacoimbra.crackme.ui.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        tools:context=".ui.MainActivity">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtRandomFact"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{viewModel.randomFact}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tbBookmark"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Cats make about 100 different sounds. Dogs make only about 10." />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/tbBookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ic_favorite"
+            android:checked="@{viewModel.bookmarked.contains(viewModel.randomFact)}"
+            android:onCheckedChanged="@{(btn, checked) -> viewModel.bookmarkFact(viewModel.randomFact, checked)}"
+            app:layout_constraintBottom_toBottomOf="@id/txtRandomFact"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtRandomFact" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGenerateNewFact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="@{() -> viewModel.generateNewFact()}"
+            android:text="@string/btn_new_fact"
+            app:icon="@drawable/ic_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRandomFact" />
+
+        <View
+            android:id="@+id/vLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.5"
+            android:background="@color/material_on_surface_disabled"
+            app:layout_constraintTop_toBottomOf="@id/btnGenerateNewFact" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtBookmarkedTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_bookmarked_facts"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vLine" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookmarkedFacts"
+            facts="@{viewModel.bookmarked}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtBookmarkedTitle"
+            tools:listitem="@layout/item_bookmarked" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

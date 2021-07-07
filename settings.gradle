@@ -1,0 +1,2 @@
+rootProject.name = "Crack me"
+include ':app'

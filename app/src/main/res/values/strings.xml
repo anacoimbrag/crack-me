@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Crack me</string>
+    <string name="btn_new_fact">New fact</string>
+    <string name="title_bookmarked_facts">Bookmarked Facts</string>
+</resources>
