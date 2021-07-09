@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = arrayOf("text"), unique = true)])
 data class Bookmark(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    @PrimaryKey
     val text: String
 )
