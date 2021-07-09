@@ -23,10 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvBookmarkedFacts.adapter = adapter
         binding.viewModel = viewModel
-
-        viewModel.bookmarked.observe(this) {
-            Log.d("bookmarked", it.joinToString())
-        }
     }
 }
 
