@@ -1,6 +1,7 @@
 package com.anacoimbra.crackme.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
@@ -22,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvBookmarkedFacts.adapter = adapter
         binding.viewModel = viewModel
+
+        viewModel.bookmarked.observe(this) {
+            Log.d("bookmarked", it.joinToString())
+        }
     }
 }
 

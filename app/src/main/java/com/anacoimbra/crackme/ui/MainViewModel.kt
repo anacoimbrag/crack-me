@@ -1,20 +1,25 @@
 package com.anacoimbra.crackme.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
+import com.anacoimbra.crackme.data.Bookmark
+import com.anacoimbra.crackme.domain.getDatabase
 import com.anacoimbra.crackme.domain.retrofit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
-class MainViewModel : ViewModel(), Listener {
+class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
+
+    private val dao = getDatabase(getApplication()).bookmarkDao()
 
     private val _randomFact = MutableLiveData<String>()
     val randomFact: LiveData<String>
         get() = _randomFact
 
-    private val _bookmarked = MutableLiveData<List<String>>()
+    private val _bookmarked = liveData {
+        val bookmarkedLiveData = dao.getAllBookmarked()
+        emitSource(bookmarkedLiveData.map { list -> list.map { it.text } })
+    }
     val bookmarked: LiveData<List<String>>
         get() = _bookmarked
 
@@ -26,9 +31,9 @@ class MainViewModel : ViewModel(), Listener {
     }
 
     override fun bookmarkFact(fact: String, checked: Boolean) {
-        if (checked)
-            _bookmarked.postValue(_bookmarked.value.orEmpty().plus(fact))
-        else
-            _bookmarked.postValue(_bookmarked.value?.minus(fact))
+        viewModelScope.launch(context = Dispatchers.IO) {
+            if (checked) dao.addBookmark(Bookmark(text = fact))
+            else dao.removeBookmark(Bookmark(text = fact))
+        }
     }
 }
