@@ -3,6 +3,9 @@ package com.anacoimbra.crackme.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.anacoimbra.crackme.domain.retrofit
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class MainViewModel : ViewModel(), Listener {
@@ -16,7 +19,10 @@ class MainViewModel : ViewModel(), Listener {
         get() = _bookmarked
 
     override fun generateNewFact() {
-        _randomFact.postValue("New random string ${Random.nextInt()}")
+        viewModelScope.launch {
+            val fact = retrofit.getRandomFact()
+            _randomFact.postValue(fact.text.orEmpty())
+        }
     }
 
     override fun bookmarkFact(fact: String, checked: Boolean) {

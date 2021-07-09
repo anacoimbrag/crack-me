@@ -6,13 +6,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-val retrofit = Retrofit.Builder()
-    .client(okHttpClient)
-    .baseUrl(BuildConfig.VTEX_API_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
-    .create(T::class.java)
-
 private val okHttpClient: OkHttpClient by lazy {
     OkHttpClient.Builder().apply {
         retryOnConnectionFailure(true)
@@ -21,3 +14,10 @@ private val okHttpClient: OkHttpClient by lazy {
         })
     }.build()
 }
+
+val retrofit: FactDatasource = Retrofit.Builder()
+    .client(okHttpClient)
+    .baseUrl(BuildConfig.BASE_URL)
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+    .create(FactDatasource::class.java)
