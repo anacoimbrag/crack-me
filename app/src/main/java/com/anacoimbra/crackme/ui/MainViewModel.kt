@@ -25,8 +25,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
 
     override fun generateNewFact() {
         viewModelScope.launch {
-            val fact = retrofit.getRandomFact()
-            _randomFact.postValue(fact.text.orEmpty())
+            try {
+                val fact = retrofit.getRandomFact()
+                _randomFact.postValue(fact.text.orEmpty())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

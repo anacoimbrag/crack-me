@@ -51,14 +51,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtRandomFact" />
 
-        <View
-            android:id="@+id/vLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:alpha="0.5"
-            android:background="@color/material_on_surface_disabled"
-            app:layout_constraintTop_toBottomOf="@id/btnGenerateNewFact" />
+        <!--        <View-->
+        <!--            android:id="@+id/vLine"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="1dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:alpha="0.5"-->
+        <!--            android:background="@color/material_on_surface_disabled"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/btnGenerateNewFact" />-->
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtBookmarkedTitle"
@@ -69,7 +69,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vLine" />
+            app:layout_constraintTop_toBottomOf="@id/btnGenerateNewFact" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBookmarkedFacts"
