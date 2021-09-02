@@ -3,6 +3,8 @@ package com.anacoimbra.crackme.ui
 import android.app.Application
 import androidx.lifecycle.*
 import com.anacoimbra.crackme.data.Bookmark
+import com.anacoimbra.crackme.domain.defaultPref
+import com.anacoimbra.crackme.domain.get
 import com.anacoimbra.crackme.domain.getDatabase
 import com.anacoimbra.crackme.domain.retrofit
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +28,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
     override fun generateNewFact() {
         viewModelScope.launch {
             try {
-                val fact = retrofit.getRandomFact()
+                val type = defaultPref(getApplication())["likes"] ?: "cat"
+                val fact = retrofit.getRandomFact(type)
                 _randomFact.postValue(fact.text.orEmpty())
             } catch (e: Exception) {
                 e.printStackTrace()

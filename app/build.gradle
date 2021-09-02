@@ -22,7 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", '"https://cat-fact.herokuapp.com/"')
+        buildConfigField("String", "BASE_URL", '"https://mobile-security-cat-fact.herokuapp.com/"')
         buildConfigField("String", "AUTH_TOKEN", "\"${properties.getProperty("api_token", "default_token")}\"")
         signingConfig signingConfigs.debug
     }
