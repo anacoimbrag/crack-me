@@ -1,13 +1,13 @@
 package com.anacoimbra.crackme.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.anacoimbra.crackme.data.Bookmark
 import com.anacoimbra.crackme.domain.defaultPref
 import com.anacoimbra.crackme.domain.get
 import com.anacoimbra.crackme.domain.getDatabase
 import com.anacoimbra.crackme.domain.retrofit
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
@@ -30,6 +30,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
             try {
                 val type = defaultPref(getApplication())["likes"] ?: "cat"
                 val fact = retrofit.getRandomFact(type)
+                Log.d("Fact", fact.text.orEmpty())
                 _randomFact.postValue(fact.text.orEmpty())
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -38,7 +39,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app), Listener {
     }
 
     override fun bookmarkFact(fact: String, checked: Boolean) {
-        viewModelScope.launch(context = Dispatchers.IO) {
+        viewModelScope.launch {
             if (checked) dao.addBookmark(Bookmark(text = fact))
             else dao.removeBookmark(Bookmark(text = fact))
         }

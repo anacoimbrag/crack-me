@@ -1,6 +1,7 @@
 package com.anacoimbra.crackme.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.anacoimbra.crackme.R
 import com.anacoimbra.crackme.databinding.ActivityMainBinding
 import com.anacoimbra.crackme.domain.defaultPref
 import com.anacoimbra.crackme.domain.set
+import com.scottyab.rootbeer.RootBeer
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkRoot()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
 
@@ -41,6 +44,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 }.create()
                 .show()
+        }
+    }
+
+    private fun checkRoot() {
+        val rootBeer = RootBeer(this)
+        if (rootBeer.isRooted) {
+            Toast.makeText(this, R.string.device_rooted_message, Toast.LENGTH_LONG).show()
+            finish()
         }
     }
 }

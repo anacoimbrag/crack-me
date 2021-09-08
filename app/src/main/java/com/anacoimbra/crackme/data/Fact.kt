@@ -4,8 +4,6 @@ package com.anacoimbra.crackme.data
 import com.google.gson.annotations.SerializedName
 
 data class Fact(
-    @SerializedName("createdAt")
-    val createdAt: String?,
     @SerializedName("deleted")
     val deleted: Boolean?,
     @SerializedName("_id")
@@ -20,10 +18,6 @@ data class Fact(
     val type: String?,
     @SerializedName("updatedAt")
     val updatedAt: String?,
-    @SerializedName("used")
-    val used: Boolean?,
-    @SerializedName("user")
-    val user: String?,
-    @SerializedName("__v")
+    @SerializedName("_v")
     val v: Int?
 )

@@ -2,10 +2,22 @@ package com.anacoimbra.crackme.domain
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
 
-fun defaultPref(context: Context): SharedPreferences =
-    context.getSharedPreferences("keys", Context.MODE_PRIVATE)
+fun defaultPref(context: Context): SharedPreferences {
+    val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+    return EncryptedSharedPreferences.create(
+        context,
+        "secret_keys",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+}
 
 operator fun SharedPreferences.set(key: String, value: Any?) =
     when (value) {

@@ -7,5 +7,5 @@ data class Status(
     @SerializedName("sentCount")
     val sentCount: Int?,
     @SerializedName("verified")
-    val verified: Boolean?
+    val verified: Any?
 )
