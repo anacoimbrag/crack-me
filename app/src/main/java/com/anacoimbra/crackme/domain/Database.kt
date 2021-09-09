@@ -3,12 +3,14 @@ package com.anacoimbra.crackme.domain
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.anacoimbra.crackme.BuildConfig
 import com.anacoimbra.crackme.data.Bookmark
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import net.sqlcipher.database.SupportFactory
 import java.security.KeyPair
 import java.security.KeyPairGenerator
@@ -25,17 +27,16 @@ fun getDatabase(context: Context): AppDatabase {
         AppDatabase::class.java, "secured.db"
     ).allowMainThreadQueries()
 
-    GlobalScope.launch {
-        val keyStore = KeyStore.getInstance("AndroidKeyStore")
-        keyStore.load(null)
-        val secretKeyEntry = keyStore
-            .getEntry("db_pass", null) as? KeyStore.SecretKeyEntry
-
-        val secretKey = secretKeyEntry?.secretKey?.encoded ?: generateKeyPair()?.private?.encoded
-
-        val factory = SupportFactory(secretKey)
+//    return withContext(Dispatchers.IO) {
+//        val keyStore = KeyStore.getInstance("AndroidKeyStore")
+//        keyStore.load(null)
+//        val secretKeyEntry = keyStore
+//            .getEntry("db_pass", null) as? KeyStore.SecretKeyEntry
+//
+//        val secretKey = secretKeyEntry?.secretKey?.encoded ?: generateKeyPair()?.private?.encoded
+        val factory = SupportFactory(BuildConfig.AUTH_TOKEN.toByteArray())
         builder.openHelperFactory(factory)
-    }
+//    }.build()
     return builder.build()
 }
 

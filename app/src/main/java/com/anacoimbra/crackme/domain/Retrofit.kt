@@ -11,7 +11,7 @@ private val okHttpClient: OkHttpClient by lazy {
     OkHttpClient.Builder().apply {
         retryOnConnectionFailure(true)
         addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.NONE
         })
     }.build()
 }
