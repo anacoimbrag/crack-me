@@ -1,8 +1,10 @@
 package com.anacoimbra.crackme.data
 
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class Fact(
     @SerializedName("deleted")
     val deleted: Boolean?,
