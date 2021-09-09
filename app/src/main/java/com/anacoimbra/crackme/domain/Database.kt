@@ -3,6 +3,7 @@ package com.anacoimbra.crackme.domain
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -19,7 +20,7 @@ fun getDatabase(context: Context): AppDatabase {
     val builder = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "secured.db"
-    )
+    ).allowMainThreadQueries()
 
     val kpg: KeyPairGenerator = KeyPairGenerator.getInstance(
         KeyProperties.KEY_ALGORITHM_EC,
@@ -36,6 +37,7 @@ fun getDatabase(context: Context): AppDatabase {
     kpg.initialize(parameterSpec)
 
     val kp = kpg.generateKeyPair()
+    Log.d("Key", kp.public.encoded.decodeToString())
     val factory = SupportFactory(kp.public.encoded)
     builder.openHelperFactory(factory)
     return builder.build()
