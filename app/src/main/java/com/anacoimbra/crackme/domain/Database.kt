@@ -21,23 +21,22 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 }
 
-fun getDatabase(context: Context): AppDatabase {
+suspend fun getDatabase(context: Context): AppDatabase {
     val builder = Room.databaseBuilder(
         context,
         AppDatabase::class.java, "secured.db"
     ).allowMainThreadQueries()
 
-//    return withContext(Dispatchers.IO) {
-//        val keyStore = KeyStore.getInstance("AndroidKeyStore")
-//        keyStore.load(null)
-//        val secretKeyEntry = keyStore
-//            .getEntry("db_pass", null) as? KeyStore.SecretKeyEntry
-//
-//        val secretKey = secretKeyEntry?.secretKey?.encoded ?: generateKeyPair()?.private?.encoded
-        val factory = SupportFactory(BuildConfig.AUTH_TOKEN.toByteArray())
+    return withContext(Dispatchers.IO) {
+        val keyStore = KeyStore.getInstance("AndroidKeyStore")
+        keyStore.load(null)
+        val secretKeyEntry = keyStore
+            .getEntry("db_pass", null) as? KeyStore.SecretKeyEntry
+
+        val secretKey = secretKeyEntry?.secretKey?.encoded ?: generateKeyPair()?.private?.encoded
+        val factory = SupportFactory(secretKey)
         builder.openHelperFactory(factory)
-//    }.build()
-    return builder.build()
+    }.build()
 }
 
 private fun generateKeyPair(): KeyPair? {

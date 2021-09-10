@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Crack me</string>
+    <string name="app_name">Don\'t Crack me</string>
     <string name="btn_new_fact">New fact</string>
     <string name="title_bookmarked_facts">Bookmarked Facts</string>
-    <string name="i_am">I am ...</string>
+    <string name="i_am">I am …</string>
     <string name="device_rooted_message">Your device is rooted, please select another device to use this app.</string>
 </resources>
